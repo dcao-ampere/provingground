@@ -567,20 +567,20 @@ struct UsbGadget
         }
         // StateChange: unknown, notMonitored, inserted were handler
         // earlier. We'll get here only for removed, or cleanup
-
-        const std::array<const char*, 6> dirs = {
-            massStorageDir.c_str(),   funcMassStorageDir.c_str(),
-            configStringsDir.c_str(), configDir.c_str(),
-            stringsDir.c_str(),       gadgetDir.c_str()};
-        for (const char* dir : dirs)
-        {
-            fs::remove_all(dir, ec);
-            if (ec)
-            {
-                success = false;
-                LogMsg(Logger::Error, "[App]: UsbGadget ", ec.message());
-            }
-        }
+        std::string cmd;
+        cmd = "rm " + massStorageDir.string();
+        system(cmd.c_str());
+        cmd = "rmdir " + funcMassStorageDir.string();
+        system(cmd.c_str());
+        cmd = "rmdir " + configStringsDir.string();
+        system(cmd.c_str());
+        cmd = "rmdir " + configDir.string();
+        system(cmd.c_str());
+        cmd = "rmdir " + stringsDir.string();
+        system(cmd.c_str());
+        cmd = "rmdir " + gadgetDir.string();
+        system(cmd.c_str());
+ 
 
         if (success)
         {
